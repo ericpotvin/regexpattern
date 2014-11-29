@@ -1,0 +1,86 @@
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_ini.h"
+#include "ext/standard/info.h"
+#include "php_regexpattern.h"
+
+ZEND_BEGIN_ARG_INFO(arginfo_regexp_patterns, 0)
+ZEND_ARG_INFO(0, integer)
+ZEND_END_ARG_INFO();
+
+zend_function_entry regexpattern_functions[] = {
+	ZEND_FE(regexp_patterns,arginfo_regexp_patterns)
+	{NULL,NULL,NULL} /* Marks the end of function entries */
+};
+
+/* {{{ regexpattern_module_entry
+ */
+zend_module_entry regexpattern_module_entry = {
+	STANDARD_MODULE_HEADER,
+	"pattern",
+	regexpattern_functions, /* Function entries */
+	PHP_MINIT(regexpattern), /* Module init */
+	NULL, /* Module shutdown */
+	NULL, /* Request init */
+	NULL, /* Request shutdown */
+	NULL, /* Module information */
+	"1.0", /* Replace with version number for your extension */
+	STANDARD_MODULE_PROPERTIES
+};
+/* }}} */
+
+#ifdef COMPILE_DL_REGEXPATTERN
+ZEND_GET_MODULE(regexpattern)
+#endif
+
+PHP_FUNCTION(regexp_patterns) {
+//	long n;
+	int argc = ZEND_NUM_ARGS();
+
+	if(argc >= 1) {
+		WRONG_PARAM_COUNT;
+	}
+/*
+	if (zend_parse_parameters(argc TSRMLS_CC, "l", &n) == FAILURE) {
+		WRONG_PARAM_COUNT;
+	}
+*/
+	array_init(return_value);
+	_ADDFIELD_("REGEXP_ALPHANUMERIC", 	REGEXP_ALPHANUMERIC);
+	_ADDFIELD_("REGEXP_ALPHA",			REGEXP_ALPHA);
+	_ADDFIELD_("REGEXP_NUMERIC",		REGEXP_NUMERIC);
+	_ADDFIELD_("REGEXP_ARCHIVEFILE", 	REGEXP_ARCHIVEFILE);
+	_ADDFIELD_("REGEXP_IMAGEFILE", 		REGEXP_IMAGEFILE);
+	_ADDFIELD_("REGEXP_EMAIL", 			REGEXP_EMAIL);
+	_ADDFIELD_("REGEXP_DOMAIN", 		REGEXP_DOMAIN);
+	_ADDFIELD_("REGEXP_PHONE", 			REGEXP_PHONE);
+	_ADDFIELD_("REGEXP_PHONE_FR", 		REGEXP_PHONE_FR);
+	_ADDFIELD_("REGEXP_ZIP_CA", 		REGEXP_ZIP_CA);
+	_ADDFIELD_("REGEXP_ZIP_US_SHORT", 	REGEXP_ZIP_US_SHORT);
+	_ADDFIELD_("REGEXP_ZIP_US_LONG", 	REGEXP_ZIP_US_LONG);
+}
+
+PHP_MINIT_FUNCTION(regexpattern) {
+	REGISTER_STRINGL_CONSTANT("REGEXP_ALPHANUMERIC",	REGEXP_ALPHANUMERIC,	strlen(REGEXP_ALPHANUMERIC),	CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_ALPHA",			REGEXP_ALPHA,			strlen(REGEXP_ALPHA),			CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_NUMERIC",			REGEXP_NUMERIC,			strlen(REGEXP_NUMERIC),			CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_ARCHIVEFILE",		REGEXP_ARCHIVEFILE,		strlen(REGEXP_ARCHIVEFILE),		CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_IMAGEFILE",		REGEXP_IMAGEFILE,		strlen(REGEXP_IMAGEFILE),		CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_EMAIL",			REGEXP_EMAIL,			strlen(REGEXP_EMAIL),			CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_DOMAIN",			REGEXP_DOMAIN,			strlen(REGEXP_DOMAIN),			CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_PHONE",			REGEXP_PHONE,			strlen(REGEXP_PHONE),			CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_PHONE_FR",		REGEXP_PHONE_FR,		strlen(REGEXP_PHONE_FR),		CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_ZIP_CA",			REGEXP_ZIP_CA,			strlen(REGEXP_ZIP_CA),			CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_ZIP_US_SHORT",	REGEXP_ZIP_US_SHORT,	strlen(REGEXP_ZIP_US_SHORT),	CONST_PERSISTENT | CONST_CS);
+	REGISTER_STRINGL_CONSTANT("REGEXP_ZIP_US_LONG",		REGEXP_ZIP_US_LONG,		strlen(REGEXP_ZIP_US_LONG),		CONST_PERSISTENT | CONST_CS);
+	return SUCCESS;
+}
+
+PHP_MINFO_FUNCTION(regexpattern) {
+	zend_printf("<table border=0 cellpadding=2 width=600>");
+	zend_printf("<tr><td><b>Regular Expression Pattern</td><td><b>%s</td></tr>",REGEXP_VERSION);
+	zend_printf("</table><br>");
+}
